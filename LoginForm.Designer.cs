@@ -104,6 +104,7 @@
             this.Controls.Add(this.label1);
             this.Name = "LoginForm";
             this.Text = "Leviosa Login";
+        
             this.ResumeLayout(false);
             this.PerformLayout();
 
