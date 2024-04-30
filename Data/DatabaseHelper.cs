@@ -20,19 +20,78 @@ namespace Leviosa.Data
         // Method to add a workout to the database
         public static void AddWorkout(DateTime date, string exerciseName, int sets, int reps, float weight)
         {
-            using (var conn = GetConnection())
+            try
             {
-                conn.Open();
-                using (var cmd = new SQLiteCommand(conn))
+                using (var conn = GetConnection())
                 {
-                    cmd.CommandText = "INSERT INTO Workouts (Date, ExerciseName, Sets, Reps, Weight) VALUES (@Date, @ExerciseName, @Sets, @Reps, @Weight)";
-                    cmd.Parameters.AddWithValue("@Date", date.ToString("yyyy-MM-dd"));
-                    cmd.Parameters.AddWithValue("@ExerciseName", exerciseName);
-                    cmd.Parameters.AddWithValue("@Sets", sets);
-                    cmd.Parameters.AddWithValue("@Reps", reps);
-                    cmd.Parameters.AddWithValue("@Weight", weight);
-                    cmd.ExecuteNonQuery();
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(conn))
+                    {
+                        cmd.CommandText = "INSERT INTO Workouts (Date, ExerciseName, Sets, Reps, Weight) VALUES (@Date, @ExerciseName, @Sets, @Reps, @Weight)";
+                        cmd.Parameters.AddWithValue("@Date", date.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@ExerciseName", exerciseName);
+                        cmd.Parameters.AddWithValue("@Sets", sets);
+                        cmd.Parameters.AddWithValue("@Reps", reps);
+                        cmd.Parameters.AddWithValue("@Weight", weight);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error adding workout: " + ex.Message);
+                throw;
+            }
+        }
+
+        // Method to update a workout in the database
+        public static void UpdateWorkout(int id, DateTime date, string exerciseName, int sets, int reps, float weight)
+        {
+            try
+            {
+                using (var conn = GetConnection())
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(conn))
+                    {
+                        cmd.CommandText = "UPDATE Workouts SET Date = @Date, ExerciseName = @ExerciseName, Sets = @Sets, Reps = @Reps, Weight = @Weight WHERE ID = @ID";
+                        cmd.Parameters.AddWithValue("@Date", date.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@ExerciseName", exerciseName);
+                        cmd.Parameters.AddWithValue("@Sets", sets);
+                        cmd.Parameters.AddWithValue("@Reps", reps);
+                        cmd.Parameters.AddWithValue("@Weight", weight);
+                        cmd.Parameters.AddWithValue("@ID", id);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating workout: " + ex.Message);
+                throw;
+            }
+        }
+
+        // Method to delete a workout from the database
+        public static void DeleteWorkout(int id)
+        {
+            try
+            {
+                using (var conn = GetConnection())
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(conn))
+                    {
+                        cmd.CommandText = "DELETE FROM Workouts WHERE ID = @ID";
+                        cmd.Parameters.AddWithValue("@ID", id);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting workout: " + ex.Message);
+                throw;
             }
         }
 
@@ -40,34 +99,78 @@ namespace Leviosa.Data
         public static DataTable GetWorkouts()
         {
             DataTable dt = new DataTable();
-            using (var conn = GetConnection())
+            try
             {
-                conn.Open();
-                using (var cmd = new SQLiteCommand("SELECT * FROM Workouts ORDER BY Date DESC", conn))
+                using (var conn = GetConnection())
                 {
-                    using (var adapter = new SQLiteDataAdapter(cmd))
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand("SELECT * FROM Workouts ORDER BY Date DESC", conn))
                     {
-                        adapter.Fill(dt);
+                        using (var adapter = new SQLiteDataAdapter(cmd))
+                        {
+                            adapter.Fill(dt);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error retrieving workouts: " + ex.Message);
+                throw;
             }
             return dt;
         }
 
-        // New method to add an exercise to the database
+        // Method to add an exercise to the database
         public static void AddExerciseToDatabase(string exerciseName)
         {
-            using (var conn = GetConnection())
+            try
             {
-                conn.Open();
-                using (var cmd = new SQLiteCommand(conn))
+                using (var conn = GetConnection())
                 {
-                    cmd.CommandText = "INSERT INTO Exercises (ExerciseName) VALUES (@ExerciseName) ON CONFLICT(ExerciseName) DO NOTHING;";
-                    cmd.Parameters.AddWithValue("@ExerciseName", exerciseName);
-                    cmd.ExecuteNonQuery();
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand(conn))
+                    {
+                        cmd.CommandText = "INSERT INTO Exercises (ExerciseName) VALUES (@ExerciseName) ON CONFLICT(ExerciseName) DO NOTHING;";
+                        cmd.Parameters.AddWithValue("@ExerciseName", exerciseName);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error adding exercise: " + ex.Message);
+                throw;
+            }
+        }
+
+        // Method to retrieve all exercise names from the database
+        public static List<string> GetExerciseNames()
+        {
+            List<string> exerciseNames = new List<string>();
+            try
+            {
+                using (var conn = GetConnection())
+                {
+                    conn.Open();
+                    using (var cmd = new SQLiteCommand("SELECT ExerciseName FROM Exercises ORDER BY ExerciseName", conn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                exerciseNames.Add(reader["ExerciseName"].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error retrieving exercise names: " + ex.Message);
+                throw;
+            }
+            return exerciseNames;
         }
     }
 }
-

@@ -41,12 +41,14 @@
             this.cmbExerciseName = new System.Windows.Forms.ComboBox();
             this.btnAddExercise = new System.Windows.Forms.Button();
             this.txtNewExercise = new System.Windows.Forms.TextBox();
+            this.btnEditWorkout = new System.Windows.Forms.Button();
+            this.btnDeleteWorkout = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWorkoutHistory)).BeginInit();
             this.SuspendLayout();
             // 
             // dateWorkout
             // 
-            this.dateWorkout.Location = new System.Drawing.Point(61, 183);
+            this.dateWorkout.Location = new System.Drawing.Point(62, 174);
             this.dateWorkout.Name = "dateWorkout";
             this.dateWorkout.Size = new System.Drawing.Size(216, 20);
             this.dateWorkout.TabIndex = 0;
@@ -110,9 +112,9 @@
             // 
             // btnAddWorkout
             // 
-            this.btnAddWorkout.Location = new System.Drawing.Point(109, 154);
+            this.btnAddWorkout.Location = new System.Drawing.Point(119, 145);
             this.btnAddWorkout.Name = "btnAddWorkout";
-            this.btnAddWorkout.Size = new System.Drawing.Size(121, 23);
+            this.btnAddWorkout.Size = new System.Drawing.Size(100, 23);
             this.btnAddWorkout.TabIndex = 9;
             this.btnAddWorkout.Text = "Add Workout";
             this.btnAddWorkout.UseVisualStyleBackColor = true;
@@ -123,7 +125,7 @@
             this.dataGridViewWorkoutHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewWorkoutHistory.Location = new System.Drawing.Point(331, 5);
             this.dataGridViewWorkoutHistory.Name = "dataGridViewWorkoutHistory";
-            this.dataGridViewWorkoutHistory.Size = new System.Drawing.Size(240, 150);
+            this.dataGridViewWorkoutHistory.Size = new System.Drawing.Size(380, 198);
             this.dataGridViewWorkoutHistory.TabIndex = 10;
             // 
             // cmbExerciseName
@@ -151,11 +153,33 @@
             this.txtNewExercise.Size = new System.Drawing.Size(100, 20);
             this.txtNewExercise.TabIndex = 13;
             // 
+            // btnEditWorkout
+            // 
+            this.btnEditWorkout.Location = new System.Drawing.Point(12, 145);
+            this.btnEditWorkout.Name = "btnEditWorkout";
+            this.btnEditWorkout.Size = new System.Drawing.Size(100, 23);
+            this.btnEditWorkout.TabIndex = 14;
+            this.btnEditWorkout.Text = "Edit Workout";
+            this.btnEditWorkout.UseVisualStyleBackColor = true;
+            this.btnEditWorkout.Click += new System.EventHandler(this.btnEditWorkout_Click);
+            // 
+            // btnDeleteWorkout
+            // 
+            this.btnDeleteWorkout.Location = new System.Drawing.Point(225, 145);
+            this.btnDeleteWorkout.Name = "btnDeleteWorkout";
+            this.btnDeleteWorkout.Size = new System.Drawing.Size(100, 23);
+            this.btnDeleteWorkout.TabIndex = 15;
+            this.btnDeleteWorkout.Text = "Delete Workout";
+            this.btnDeleteWorkout.UseVisualStyleBackColor = true;
+            this.btnDeleteWorkout.Click += new System.EventHandler(this.btnDeleteWorkout_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(581, 212);
+            this.ClientSize = new System.Drawing.Size(718, 217);
+            this.Controls.Add(this.btnDeleteWorkout);
+            this.Controls.Add(this.btnEditWorkout);
             this.Controls.Add(this.txtNewExercise);
             this.Controls.Add(this.btnAddExercise);
             this.Controls.Add(this.cmbExerciseName);
@@ -193,5 +217,7 @@
         private System.Windows.Forms.ComboBox cmbExerciseName;
         private System.Windows.Forms.Button btnAddExercise;
         private System.Windows.Forms.TextBox txtNewExercise;
+        private System.Windows.Forms.Button btnEditWorkout;
+        private System.Windows.Forms.Button btnDeleteWorkout;
     }
 }
