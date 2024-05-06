@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Leviosa.Data;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Leviosa
 {
@@ -32,10 +33,10 @@ namespace Leviosa
         private void ValidateNumericInput(object sender, CancelEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-            if (!int.TryParse(textBox.Text, out int _))
+            if (!int.TryParse(textBox.Text, out int result) || result <= 0)
             {
                 e.Cancel = true;
-                errorProvider.SetError(textBox, "Please enter a valid number.");
+                errorProvider.SetError(textBox, "Please enter a valid positive number.");
             }
             else
             {
@@ -57,56 +58,50 @@ namespace Leviosa
             }
         }
 
+        private bool ValidateWorkoutForm()
+        {
+            bool isValid = true;
+            // Trigger all controls' validation
+            foreach (Control control in Controls)
+            {
+                if (!ValidateChildren(ValidationConstraints.Enabled))
+                    isValid = false;
+            }
+
+            return isValid;
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
-            LoadWorkouts(); // Load workouts into the DataGridView
-            LoadExercises(); // Populate the exercise names into the ComboBox
-            SetupDataGridView(); // Setup DataGridView for editing
-        }
-
-        private void SetupDataGridView()
-        {
-            dataGridViewWorkoutHistory.ReadOnly = false; // Allow editing
-            dataGridViewWorkoutHistory.AllowUserToAddRows = false; // Prevent the user from adding rows
-            dataGridViewWorkoutHistory.CellEndEdit += dataGridViewWorkoutHistory_CellEndEdit; // Add event handler for saving changes
-        }
-
-        private void dataGridViewWorkoutHistory_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                // Retrieve the updated data from the DataGridView
-                int id = Convert.ToInt32(dataGridViewWorkoutHistory.Rows[e.RowIndex].Cells["ID"].Value);
-                DateTime date = Convert.ToDateTime(dataGridViewWorkoutHistory.Rows[e.RowIndex].Cells["Date"].Value);
-                string exerciseName = dataGridViewWorkoutHistory.Rows[e.RowIndex].Cells["ExerciseName"].Value.ToString();
-                int sets = Convert.ToInt32(dataGridViewWorkoutHistory.Rows[e.RowIndex].Cells["Sets"].Value);
-                int reps = Convert.ToInt32(dataGridViewWorkoutHistory.Rows[e.RowIndex].Cells["Reps"].Value);
-                float weight = Convert.ToSingle(dataGridViewWorkoutHistory.Rows[e.RowIndex].Cells["Weight"].Value);
-
-                // Update the database
-                DatabaseHelper.UpdateWorkout(id, date, exerciseName, sets, reps, weight);
-                MessageBox.Show("Workout updated successfully!", "Update Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to update workout: " + ex.Message, "Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            LoadWorkouts();
+            LoadExercises();
+            LoadWeeklyWorkoutSummary(); // Newly added method to load weekly summaries
+            LoadTotalWeightPerSession(); // Load the total weight per session
+            SetupChart();  // Setup chart configurations
+            LoadChartData();  // Load data into the chart
+                              // other load methods
         }
 
         private void LoadExercises()
         {
             var exercises = DatabaseHelper.GetExerciseNames();
-            cmbExerciseName.Items.Clear(); // Clear existing items
+            cmbExerciseName.Items.Clear();
             foreach (var exercise in exercises)
             {
-                cmbExerciseName.Items.Add(exercise); // Add exercise names fetched from database
+                cmbExerciseName.Items.Add(exercise);
             }
             if (cmbExerciseName.Items.Count > 0)
-                cmbExerciseName.SelectedIndex = 0; // Set the first item as selected by default
+                cmbExerciseName.SelectedIndex = 0;
         }
 
         private void btnAddWorkout_Click(object sender, EventArgs e)
         {
+            if (!ValidateWorkoutForm())
+            {
+                MessageBox.Show("Please correct the highlighted errors.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             try
             {
                 var date = dateWorkout.Value;
@@ -214,6 +209,46 @@ namespace Leviosa
                     LoadWorkouts();
                     MessageBox.Show("Workout deleted successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+        }
+        private void LoadWeeklyWorkoutSummary()
+        {
+            dataGridViewWeeklySummary.DataSource = DatabaseHelper.GetWeeklyWorkoutSummary();
+            dataGridViewWeeklySummary.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            dataGridViewWeeklySummary.Refresh();  // Refresh the grid to show the updated data.
+        }
+        private void LoadTotalWeightPerSession()
+        {
+            dataGridViewTotalWeightPerSession.DataSource = DatabaseHelper.GetTotalWeightPerSession();
+            dataGridViewTotalWeightPerSession.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            dataGridViewTotalWeightPerSession.Refresh();  // Refresh to display the latest data.
+        }
+        private void SetupChart()
+        {
+            chartProgress.Series.Clear();
+            chartProgress.ChartAreas.Add(new ChartArea("MainArea"));
+
+            Series totalWeightSeries = new Series("Total Weight Lifted")
+            {
+                ChartType = SeriesChartType.Line,  // Choose line chart, you can choose others like Bar, Column, etc.
+                Color = Color.Blue,
+                BorderWidth = 2
+            };
+            chartProgress.Series.Add(totalWeightSeries);
+
+            // Setup other properties
+            chartProgress.ChartAreas["MainArea"].AxisX.Title = "Date";
+            chartProgress.ChartAreas["MainArea"].AxisY.Title = "Total Weight Lifted";
+        }
+        private void LoadChartData()
+        {
+            var data = DatabaseHelper.GetTotalWeightPerSession();  // Ensure this method returns DataTable
+            Series series = chartProgress.Series["Total Weight Lifted"];
+            series.Points.Clear();
+
+            foreach (DataRow row in data.Rows)
+            {
+                series.Points.AddXY(Convert.ToDateTime(row["Date"]).ToShortDateString(), row["TotalWeight"]);
             }
         }
     }

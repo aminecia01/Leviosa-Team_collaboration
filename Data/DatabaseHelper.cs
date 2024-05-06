@@ -172,5 +172,55 @@ namespace Leviosa.Data
             }
             return exerciseNames;
         }
+        public static DataTable GetWeeklyWorkoutSummary()
+        {
+            DataTable dt = new DataTable();
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = new SQLiteCommand(conn))
+                {
+                    cmd.CommandText = @"
+                SELECT strftime('%Y-%W', Date) AS Week,
+                       COUNT(*) AS TotalWorkouts,
+                       SUM(Sets) AS TotalSets,
+                       SUM(Reps) AS TotalReps,
+                       SUM(Weight) AS TotalWeight,
+                       AVG(Sets) AS AverageSets,
+                       AVG(Reps) AS AverageReps,
+                       AVG(Weight) AS AverageWeight
+                FROM Workouts
+                GROUP BY strftime('%Y-%W', Date)
+                ORDER BY Week DESC;";
+                    using (var adapter = new SQLiteDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            return dt;
+        }
+        public static DataTable GetTotalWeightPerSession()
+        {
+            DataTable dt = new DataTable();
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = new SQLiteCommand(conn))
+                {
+                    cmd.CommandText = @"
+                SELECT Date, SUM(Weight * Sets * Reps) AS TotalWeight
+                FROM Workouts
+                GROUP BY Date
+                ORDER BY Date DESC;";
+                    using (var adapter = new SQLiteDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            return dt;
+        }
+
     }
 }

@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.dateWorkout = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -43,7 +46,13 @@
             this.txtNewExercise = new System.Windows.Forms.TextBox();
             this.btnEditWorkout = new System.Windows.Forms.Button();
             this.btnDeleteWorkout = new System.Windows.Forms.Button();
+            this.dataGridViewWeeklySummary = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTotalWeightPerSession = new System.Windows.Forms.DataGridView();
+            this.chartProgress = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWorkoutHistory)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWeeklySummary)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTotalWeightPerSession)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartProgress)).BeginInit();
             this.SuspendLayout();
             // 
             // dateWorkout
@@ -125,7 +134,7 @@
             this.dataGridViewWorkoutHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewWorkoutHistory.Location = new System.Drawing.Point(331, 5);
             this.dataGridViewWorkoutHistory.Name = "dataGridViewWorkoutHistory";
-            this.dataGridViewWorkoutHistory.Size = new System.Drawing.Size(380, 198);
+            this.dataGridViewWorkoutHistory.Size = new System.Drawing.Size(440, 189);
             this.dataGridViewWorkoutHistory.TabIndex = 10;
             // 
             // cmbExerciseName
@@ -173,11 +182,46 @@
             this.btnDeleteWorkout.UseVisualStyleBackColor = true;
             this.btnDeleteWorkout.Click += new System.EventHandler(this.btnDeleteWorkout_Click);
             // 
+            // dataGridViewWeeklySummary
+            // 
+            this.dataGridViewWeeklySummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewWeeklySummary.Location = new System.Drawing.Point(225, 200);
+            this.dataGridViewWeeklySummary.Name = "dataGridViewWeeklySummary";
+            this.dataGridViewWeeklySummary.Size = new System.Drawing.Size(546, 155);
+            this.dataGridViewWeeklySummary.TabIndex = 16;
+            // 
+            // dataGridViewTotalWeightPerSession
+            // 
+            this.dataGridViewTotalWeightPerSession.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewTotalWeightPerSession.Location = new System.Drawing.Point(12, 200);
+            this.dataGridViewTotalWeightPerSession.Name = "dataGridViewTotalWeightPerSession";
+            this.dataGridViewTotalWeightPerSession.Size = new System.Drawing.Size(207, 155);
+            this.dataGridViewTotalWeightPerSession.TabIndex = 17;
+            // 
+            // chartProgress
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chartProgress.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartProgress.Legends.Add(legend1);
+            this.chartProgress.Location = new System.Drawing.Point(12, 361);
+            this.chartProgress.Name = "chartProgress";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartProgress.Series.Add(series1);
+            this.chartProgress.Size = new System.Drawing.Size(759, 218);
+            this.chartProgress.TabIndex = 18;
+            this.chartProgress.Text = "chart1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(718, 217);
+            this.ClientSize = new System.Drawing.Size(777, 591);
+            this.Controls.Add(this.chartProgress);
+            this.Controls.Add(this.dataGridViewTotalWeightPerSession);
+            this.Controls.Add(this.dataGridViewWeeklySummary);
             this.Controls.Add(this.btnDeleteWorkout);
             this.Controls.Add(this.btnEditWorkout);
             this.Controls.Add(this.txtNewExercise);
@@ -197,6 +241,9 @@
             this.Text = "Leviosa - Fitness Tracker";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWorkoutHistory)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWeeklySummary)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTotalWeightPerSession)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartProgress)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,5 +266,8 @@
         private System.Windows.Forms.TextBox txtNewExercise;
         private System.Windows.Forms.Button btnEditWorkout;
         private System.Windows.Forms.Button btnDeleteWorkout;
+        private System.Windows.Forms.DataGridView dataGridViewWeeklySummary;
+        private System.Windows.Forms.DataGridView dataGridViewTotalWeightPerSession;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartProgress;
     }
 }
