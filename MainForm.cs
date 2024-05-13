@@ -251,5 +251,10 @@ namespace Leviosa
                 series.Points.AddXY(Convert.ToDateTime(row["Date"]).ToShortDateString(), row["TotalWeight"]);
             }
         }
+
+        private void btnBackup_Click(object sender, EventArgs e)
+        {
+            DatabaseHelper.BackupDatabase();
+        }
     }
 }

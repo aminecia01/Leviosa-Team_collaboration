@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SQLite; //added to use the SQLite .NET provider
+using System.IO;  // For handling file and directory operations.
+using System.Windows.Forms;  // For displaying messages to the user.
+
 
 namespace Leviosa.Data
 {
@@ -220,6 +223,34 @@ namespace Leviosa.Data
                 }
             }
             return dt;
+        }
+        public static void BackupDatabase()
+        {
+            // Path to the original database
+            string sourcePath = @"C:\Users\jsocs\OneDrive\Documents\School\IT488\Project\Leviosa\Database\Leviosa.db";
+            // Directory to store backups, within the existing database directory
+            string backupDirectory = @"C:\Users\jsocs\OneDrive\Documents\School\IT488\Project\Leviosa\Database\Backups";
+            // Backup file name with a timestamp for uniqueness
+            string backupFileName = $"Leviosa_backup_{DateTime.Now:yyyyMMddHHmmss}.db";
+            // Full path for the backup file
+            string backupPath = Path.Combine(backupDirectory, backupFileName);
+
+            try
+            {
+                // Ensure the backup directory exists
+                if (!Directory.Exists(backupDirectory))
+                {
+                    Directory.CreateDirectory(backupDirectory);
+                }
+
+                // Copy the database file to the backup directory
+                File.Copy(sourcePath, backupPath, true);
+                MessageBox.Show("Backup created successfully at: " + backupPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to create backup: " + ex.Message);
+            }
         }
 
     }

@@ -49,6 +49,7 @@
             this.dataGridViewWeeklySummary = new System.Windows.Forms.DataGridView();
             this.dataGridViewTotalWeightPerSession = new System.Windows.Forms.DataGridView();
             this.chartProgress = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.btnBackup = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWorkoutHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWeeklySummary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTotalWeightPerSession)).BeginInit();
@@ -214,11 +215,22 @@
             this.chartProgress.TabIndex = 18;
             this.chartProgress.Text = "chart1";
             // 
+            // btnBackup
+            // 
+            this.btnBackup.Location = new System.Drawing.Point(12, 10);
+            this.btnBackup.Name = "btnBackup";
+            this.btnBackup.Size = new System.Drawing.Size(75, 23);
+            this.btnBackup.TabIndex = 19;
+            this.btnBackup.Text = "Backup Data";
+            this.btnBackup.UseVisualStyleBackColor = true;
+            this.btnBackup.Click += new System.EventHandler(this.btnBackup_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(777, 591);
+            this.Controls.Add(this.btnBackup);
             this.Controls.Add(this.chartProgress);
             this.Controls.Add(this.dataGridViewTotalWeightPerSession);
             this.Controls.Add(this.dataGridViewWeeklySummary);
@@ -269,5 +281,6 @@
         private System.Windows.Forms.DataGridView dataGridViewWeeklySummary;
         private System.Windows.Forms.DataGridView dataGridViewTotalWeightPerSession;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartProgress;
+        private System.Windows.Forms.Button btnBackup;
     }
 }
