@@ -13,7 +13,7 @@ namespace Leviosa.Data
 {
     internal class DatabaseHelper
     {
-        private static string dbConnectionStr = @"Data Source=C:\Users\jsocs\OneDrive\Documents\School\IT488\Project\Leviosa\Database\Leviosa.db;Version=3;";
+        private static string dbConnectionStr = @"Data Source=.\Database\Leviosa.db;Version=3;";
 
         public static SQLiteConnection GetConnection()
         {
@@ -227,9 +227,9 @@ namespace Leviosa.Data
         public static void BackupDatabase()
         {
             // Path to the original database
-            string sourcePath = @"C:\Users\jsocs\OneDrive\Documents\School\IT488\Project\Leviosa\Database\Leviosa.db";
+            string sourcePath = @".\Database\Leviosa.db";
             // Directory to store backups, within the existing database directory
-            string backupDirectory = @"C:\Users\jsocs\OneDrive\Documents\School\IT488\Project\Leviosa\Database\Backups";
+            string backupDirectory = @".\Leviosa\Database\Backups";
             // Backup file name with a timestamp for uniqueness
             string backupFileName = $"Leviosa_backup_{DateTime.Now:yyyyMMddHHmmss}.db";
             // Full path for the backup file

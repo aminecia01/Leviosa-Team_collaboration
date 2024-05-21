@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32319.34
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leviosa", "Leviosa.csproj", "{CB252B72-ED73-452E-BAEC-2905192669AA}"
 EndProject
@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Database\Leviosa.db = Database\Leviosa.db
 	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Leviosa Setup", "..\Leviosa Setup\Leviosa Setup.vdproj", "{1AB0BC16-5AA1-469D-8D99-22B85B3E09B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,8 @@ Global
 		{CB252B72-ED73-452E-BAEC-2905192669AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB252B72-ED73-452E-BAEC-2905192669AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB252B72-ED73-452E-BAEC-2905192669AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AB0BC16-5AA1-469D-8D99-22B85B3E09B5}.Debug|Any CPU.ActiveCfg = Debug
+		{1AB0BC16-5AA1-469D-8D99-22B85B3E09B5}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
